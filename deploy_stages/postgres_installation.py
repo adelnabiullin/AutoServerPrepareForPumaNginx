@@ -1,5 +1,6 @@
 from fabric.api import local, lcd, settings, run, sudo, env, put, cd
 import settings as project_settings
+from helpers import upload_file_and_move_it
 
 def add_postgres_repo():
     sudo("echo 'deb http://apt.postgresql.org/pub/repos/apt/ precise-pgdg main' >> /etc/apt/sources.list.d/pgdg.list")
@@ -21,20 +22,30 @@ def set_new_user_for_postgres():
     sudo('sudo -u postgres psql -c "alter role dev superuser createrole createdb replication;"')
 
 def upload_postgresql_conf():
-    file_path = '/tmp/postgresql.conf'
-    sudo('rm -f /etc/postgresql/9.4/main/postgresql.conf')
-    put(project_settings.PROJECT_ROOT + '/config_folder/postgresql.conf', file_path)
-    sudo('cp -p %s /etc/postgresql/9.4/main/postgresql.conf' % file_path)
-    sudo('chown postgres /etc/postgresql/9.4/main/postgresql.conf')
-    run('rm %s' % file_path)
+    upload_file_and_move_it('postgresql.conf',
+                            '/etc/postgresql/9.4/main/postgresql.conf',
+                            True,
+                            True,
+                            'postgres')
+    # file_path = '/tmp/postgresql.conf'
+    # sudo('rm -f /etc/postgresql/9.4/main/postgresql.conf')
+    # put(project_settings.PROJECT_ROOT + '/config_folder/postgresql.conf', file_path)
+    # sudo('cp -p %s /etc/postgresql/9.4/main/postgresql.conf' % file_path)
+    # sudo('chown postgres /etc/postgresql/9.4/main/postgresql.conf')
+    # run('rm %s' % file_path)
 
 def upload_pg_hba_conf():
-    file_path = '/tmp/pg_hba.conf'
-    sudo('rm -f /etc/postgresql/9.4/main/pg_hba.conf')
-    put(project_settings.PROJECT_ROOT + '/config_folder/pg_hba.conf', file_path)
-    sudo('cp -p %s /etc/postgresql/9.4/main/pg_hba.conf' % file_path)
-    sudo('chown postgres /etc/postgresql/9.4/main/pg_hba.conf')
-    run('rm %s' % file_path)
+    upload_file_and_move_it('pg_hba.conf',
+                            '/etc/postgresql/9.4/main/pg_hba.conf',
+                            True,
+                            True,
+                            'postgres')
+    # file_path = '/tmp/pg_hba.conf'
+    # sudo('rm -f /etc/postgresql/9.4/main/pg_hba.conf')
+    # put(project_settings.PROJECT_ROOT + '/config_folder/pg_hba.conf', file_path)
+    # sudo('cp -p %s /etc/postgresql/9.4/main/pg_hba.conf' % file_path)
+    # sudo('chown postgres /etc/postgresql/9.4/main/pg_hba.conf')
+    # run('rm %s' % file_path)
 
 def enable_remote_access_to_postgres():
     upload_postgresql_conf()
