@@ -6,6 +6,8 @@ from deploy_stages.user_setup import *
 from deploy_stages.rbenv_installation import *
 from deploy_stages.ruby_installation import *
 from deploy_stages.postgres_installation import *
+from deploy_stages.nginx_installation import *
+from deploy_stages.redis_installation import *
 
 env.shell = "/bin/bash -l -i -c"
 
@@ -38,3 +40,5 @@ def run_as_deployer():
     full_install_rbenv()
     # prepare_ruby_for_deploy()
     prepare_postgres_to_deploy()
+    prepare_nginx_for_deploy()
+    prepare_redis_for_deploy()
