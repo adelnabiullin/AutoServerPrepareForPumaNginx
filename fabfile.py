@@ -8,6 +8,8 @@ from deploy_stages.ruby_installation import *
 from deploy_stages.postgres_installation import *
 from deploy_stages.nginx_installation import *
 from deploy_stages.redis_installation import *
+from deploy_stages.sidekiq_installation import prepare_sidekiq_for_deploy
+from deploy_stages.puma_installation import prepare_puma_for_deploy
 
 env.shell = "/bin/bash -l -i -c"
 
@@ -38,7 +40,9 @@ def run_as_root_user():
 # Run this command as deployer
 def run_as_deployer():
     full_install_rbenv()
-    # prepare_ruby_for_deploy()
+    prepare_ruby_for_deploy()
     prepare_postgres_to_deploy()
     prepare_nginx_for_deploy()
     prepare_redis_for_deploy()
+    prepare_sidekiq_for_deploy()
+    prepare_puma_for_deploy()
