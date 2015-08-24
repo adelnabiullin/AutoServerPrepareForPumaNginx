@@ -20,7 +20,7 @@ deployer_info = {
 ruby_version = '2.2.2'
 
 postgresql_settings = {
-    'pass_for_deployer': 'danieldefoe17owned',
+    'pass_for_deployer': 'danieldefoeownedpwnz',
     'pass_for_dev': 'testdev'
 }
 
