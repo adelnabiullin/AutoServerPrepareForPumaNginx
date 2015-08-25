@@ -10,7 +10,8 @@ from deploy_stages.nginx_installation import *
 from deploy_stages.redis_installation import *
 from deploy_stages.sidekiq_installation import prepare_sidekiq_for_deploy
 from deploy_stages.puma_installation import prepare_puma_for_deploy
-
+from deploy_stages.swap_installation import install_swap
+from deploy_stages.additional_lib_installation import install_all_dependies
 env.shell = "/bin/bash -l -i -c"
 
 def root_user():
@@ -36,6 +37,7 @@ def run_as_root_user():
     deny_root_user()
     push_key()
     reload_ssh()
+    install_swap()
 
 # Run this command as deployer
 def run_as_deployer():
@@ -46,3 +48,4 @@ def run_as_deployer():
     prepare_redis_for_deploy()
     prepare_sidekiq_for_deploy()
     prepare_puma_for_deploy()
+    install_all_dependies()

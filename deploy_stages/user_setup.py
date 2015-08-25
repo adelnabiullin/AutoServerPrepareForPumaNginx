@@ -24,6 +24,9 @@ def add_user_to_server():
     with settings(prompts=pr):
         sudo('adduser deployer')
     sudo("echo 'deployer ALL=(ALL:ALL) ALL' >> /etc/sudoers")
+    allow_nopass = "deployer ALL=NOPASSWD: /usr/sbin/service, /bin/ln,\
+/bin/rm, /bin/mv, /sbin/start, /sbin/stop, /sbin/restart, /sbin/status"
+    sudo("echo '%s' >> /etc/sudoers" % allow_nopass)
 
 def deny_root_user():
     sudo("echo 'PermitRootLogin no' >> /etc/ssh/sshd_config")
