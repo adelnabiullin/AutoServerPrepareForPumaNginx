@@ -38,6 +38,7 @@ def run_as_root_user():
     push_key()
     reload_ssh()
     install_swap()
+    set_permissions_for_ssh()
 
 # Run this command as deployer
 def run_as_deployer():

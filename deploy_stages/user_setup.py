@@ -24,8 +24,7 @@ def add_user_to_server():
     with settings(prompts=pr):
         sudo('adduser deployer')
     sudo("echo 'deployer ALL=(ALL:ALL) ALL' >> /etc/sudoers")
-    allow_nopass = "deployer ALL=NOPASSWD: /usr/sbin/service, /bin/ln,\
-/bin/rm, /bin/mv, /sbin/start, /sbin/stop, /sbin/restart, /sbin/status"
+    allow_nopass = "deployer ALL=NOPASSWD: ALL"
     sudo("echo '%s' >> /etc/sudoers" % allow_nopass)
 
 def deny_root_user():
@@ -42,3 +41,6 @@ def push_key():
     put('~/.ssh/id_rsa.pub', keyfile)
     run('cat %s >> /home/deployer/.ssh/authorized_keys' % keyfile)
     run('rm %s' % keyfile)
+
+def set_permissions_for_ssh():
+    sudo("chown -R deployer:deployer /home/deployer/.ssh")
